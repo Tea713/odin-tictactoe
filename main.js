@@ -5,6 +5,7 @@ function Player(name, move) {
 
 const theGame = (function() {
     let board = Array(3).fill(null).map(() => Array(3).fill(0));
+    let turns = 0;
     let player1 = new Player("Player 1", (x, y) => {
         board[x][y] = 1;
     });
@@ -14,7 +15,10 @@ const theGame = (function() {
 
     const p1Move = (x, y) => player1.move(x, y);
     const p2Move = (x, y) => player2.move(x, y);
-    const clearBoard = () => board = Array(3).fill(null).map(() => Array(3).fill(0));
+    const clearBoard = () => {
+        board = Array(3).fill(null).map(() => Array(3).fill(0));
+        turns = 0;
+    }
     const checkBoard = () => null;
     const printBoard = () => console.log(board);
 

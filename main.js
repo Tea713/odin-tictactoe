@@ -11,7 +11,7 @@ const theGameBoard = (function () {
     const clearBoard = () => {
         board = Array(3)
             .fill(null)
-            .map(() => Array(3).fill(-1));
+            .map(() => Array(3).fill(0));
     };
 
     const playerMove = (token, x, y) => {

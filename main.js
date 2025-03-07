@@ -102,7 +102,6 @@ const gameController = (function () {
 })();
 
 const screenController = (function () {
-    const updateScreen = () => {};
     const resetButton = document.getElementById("reset-btn");
     const cells = document.querySelectorAll("#board button");
     cells.forEach((cell) => {
@@ -110,6 +109,16 @@ const screenController = (function () {
             const x = parseInt(cell.dataset.row);
             const y = parseInt(cell.dataset.col);
             gameController.playTurn(x, y);
+            updateScreen();
         });
     });
+    const updateScreen = () => {
+        flatBoard = theGameBoard.getBoard().flat();
+        console.log(flatBoard);
+        for (let i = 0; i < 9; i++) {
+            if(flatBoard[i] === 0) continue;
+            console.log(cells[i]);
+            cells[i].innerHTML = flatBoard[i] === 1 ? 'X' : 'O';
+        }
+    };
 })();

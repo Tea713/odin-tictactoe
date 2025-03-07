@@ -102,7 +102,10 @@ const gameController = (function () {
 })();
 
 const screenController = (function () {
-    const resetButton = document.getElementById("reset-btn");
+    const resetButton = document.getElementById("reset-btn").addEventListener("click", () => {
+        gameController.resetGame();
+        updateScreen();
+    });
     const cells = document.querySelectorAll("#board button");
     cells.forEach((cell) => {
         cell.addEventListener("click", () => {
@@ -114,11 +117,10 @@ const screenController = (function () {
     });
     const updateScreen = () => {
         flatBoard = theGameBoard.getBoard().flat();
-        console.log(flatBoard);
         for (let i = 0; i < 9; i++) {
-            if(flatBoard[i] === 0) continue;
-            console.log(cells[i]);
-            cells[i].innerHTML = flatBoard[i] === 1 ? 'X' : 'O';
+            if(flatBoard[i] === 0) cells[i].innerHTML = '';
+            else if (flatBoard[i] === 1) cells[i].innerHTML = 'X';
+            else cells[i].innerHTML = 'O';
         }
     };
 })();

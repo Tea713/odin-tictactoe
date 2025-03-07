@@ -7,18 +7,21 @@ const theGameBoard = (function () {
     let board = Array(3)
         .fill(null)
         .map(() => Array(3).fill(0));
+    let move = 0;
 
     const clearBoard = () => {
         board = Array(3)
             .fill(null)
             .map(() => Array(3).fill(0));
+        move = 0;
     };
 
     const playerMove = (token, x, y) => {
         board[x][y] = token;
+        move++;
     };
 
-    const checkBoard = () => {
+    const checkWinner = () => {
         for (let i = 0; i < 3; i++) {
             if (
                 board[i][0] !== 0 &&
@@ -27,13 +30,10 @@ const theGameBoard = (function () {
             ) {
                 return true;
             }
-        }
-
-        for (let i = 0; i < 3; i++) {
             if (
                 board[0][i] !== 0 &&
                 board[0][i] === board[1][i] &&
-                board[i][1] === board[i][2]
+                board[1][i] === board[2][i]
             ) {
                 return true;
             }
@@ -55,9 +55,11 @@ const theGameBoard = (function () {
         return false;
     };
 
+    const checkDraw = () => move === 9; 
+
     const getBoard = () => board;
 
-    return { getBoard, playerMove, clearBoard, checkBoard };
+    return { getBoard, playerMove, clearBoard, checkWinner, checkDraw };
 })();
 
 const gameController = (function () {
@@ -72,8 +74,12 @@ const gameController = (function () {
     const playTurn = (x, y) => {
         theGameBoard.playerMove(activePlayer.token, x, y);
         console.log(theGameBoard.getBoard());
-        if (theGameBoard.checkBoard()) {
+        if (theGameBoard.checkWinner()) {
             console.log(`${activePlayer.name} has won!`);
+            return true;
+        }
+        if (theGameBoard.checkDraw()) {
+            console.log("Draw!");
             return true;
         }
         switchPlayer();
@@ -83,10 +89,12 @@ const gameController = (function () {
     return { playTurn };
 })();
 
-
 gameController.playTurn(0, 0);
 gameController.playTurn(1, 0);
 gameController.playTurn(0, 1);
 gameController.playTurn(1, 1);
 gameController.playTurn(2, 2);
+gameController.playTurn(0, 2);
+gameController.playTurn(2, 0);
+gameController.playTurn(2, 1);
 gameController.playTurn(1, 2);

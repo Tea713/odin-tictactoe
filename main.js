@@ -98,11 +98,18 @@ const gameController = (function () {
         activePlayer = player1;
     };
 
-    return { playTurn };
+    return { playTurn, resetGame };
 })();
 
 const screenController = (function () {
     const updateScreen = () => {};
+    const resetButton = document.getElementById("reset-btn");
+    const cells = document.querySelectorAll("#board button");
+    cells.forEach((cell) => {
+        cell.addEventListener("click", () => {
+            const x = parseInt(cell.dataset.row);
+            const y = parseInt(cell.dataset.col);
+            gameController.playTurn(x, y);
+        });
+    });
 })();
-
-const resetButton = document.getElementById("reset-btn");

@@ -76,7 +76,10 @@ const gameController = (function () {
     };
 
     const playTurn = (x, y) => {
-        theGameBoard.playerMove(activePlayer.token, x, y);
+        if(!theGameBoard.playerMove(activePlayer.token, x, y)) {
+            console.log("Invalid move!");
+            return false;
+        }
         console.log(theGameBoard.getBoard());
         if (theGameBoard.checkWinner()) {
             console.log(`${activePlayer.name} has won!`);
@@ -94,7 +97,7 @@ const gameController = (function () {
 })();
 
 gameController.playTurn(0, 0);
-gameController.playTurn(1, 0);
+gameController.playTurn(0, 0);
 gameController.playTurn(0, 1);
 gameController.playTurn(1, 1);
 gameController.playTurn(2, 2);

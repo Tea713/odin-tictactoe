@@ -17,7 +17,7 @@ const theGameBoard = (function () {
     };
 
     const playerMove = (token, x, y) => {
-        if(board[x][y] !== 0) {
+        if (board[x][y] !== 0) {
             return false;
         }
         board[x][y] = token;
@@ -59,7 +59,7 @@ const theGameBoard = (function () {
         return false;
     };
 
-    const checkDraw = () => move === 9; 
+    const checkDraw = () => move === 9;
 
     const getBoard = () => board;
 
@@ -76,7 +76,7 @@ const gameController = (function () {
     };
 
     const playTurn = (x, y) => {
-        if(!theGameBoard.playerMove(activePlayer.token, x, y)) {
+        if (!theGameBoard.playerMove(activePlayer.token, x, y)) {
             console.log("Invalid move!");
             return false;
         }
@@ -93,15 +93,16 @@ const gameController = (function () {
         return false;
     };
 
+    const resetGame = () => {
+        theGameBoard.clearBoard();
+        activePlayer = player1;
+    };
+
     return { playTurn };
 })();
 
-gameController.playTurn(0, 0);
-gameController.playTurn(0, 0);
-gameController.playTurn(0, 1);
-gameController.playTurn(1, 1);
-gameController.playTurn(2, 2);
-gameController.playTurn(0, 2);
-gameController.playTurn(2, 0);
-gameController.playTurn(2, 1);
-gameController.playTurn(1, 2);
+const screenController = (function () {
+    const updateScreen = () => {};
+})();
+
+const resetButton = document.getElementById("reset-btn");

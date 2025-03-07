@@ -70,12 +70,17 @@ const gameController = (function () {
     let player1 = new Player("Player 1", 1);
     let player2 = new Player("Player 2", 2);
     let activePlayer = player1;
+    let gameOver = false;
 
     const switchPlayer = () => {
         activePlayer = activePlayer === player1 ? player2 : player1;
     };
 
     const playTurn = (x, y) => {
+        if (gameOver) {
+            console.log("Game has ended.");
+            return false;
+        }
         if (!theGameBoard.playerMove(activePlayer.token, x, y)) {
             console.log("Invalid move!");
             return false;
@@ -83,10 +88,12 @@ const gameController = (function () {
         console.log(theGameBoard.getBoard());
         if (theGameBoard.checkWinner()) {
             console.log(`${activePlayer.name} has won!`);
+            gameOver = true;
             return true;
         }
         if (theGameBoard.checkDraw()) {
             console.log("Draw!");
+            gameOver = true;
             return true;
         }
         switchPlayer();
@@ -96,16 +103,19 @@ const gameController = (function () {
     const resetGame = () => {
         theGameBoard.clearBoard();
         activePlayer = player1;
+        gameOver = false;
     };
 
     return { playTurn, resetGame };
 })();
 
 const screenController = (function () {
-    const resetButton = document.getElementById("reset-btn").addEventListener("click", () => {
-        gameController.resetGame();
-        updateScreen();
-    });
+    const resetButton = document
+        .getElementById("reset-btn")
+        .addEventListener("click", () => {
+            gameController.resetGame();
+            updateScreen();
+        });
     const cells = document.querySelectorAll("#board button");
     cells.forEach((cell) => {
         cell.addEventListener("click", () => {
@@ -118,9 +128,9 @@ const screenController = (function () {
     const updateScreen = () => {
         flatBoard = theGameBoard.getBoard().flat();
         for (let i = 0; i < 9; i++) {
-            if(flatBoard[i] === 0) cells[i].innerHTML = '';
-            else if (flatBoard[i] === 1) cells[i].innerHTML = 'X';
-            else cells[i].innerHTML = 'O';
+            if (flatBoard[i] === 0) cells[i].innerHTML = "";
+            else if (flatBoard[i] === 1) cells[i].innerHTML = "X";
+            else cells[i].innerHTML = "O";
         }
     };
 })();

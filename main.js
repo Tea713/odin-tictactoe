@@ -17,8 +17,12 @@ const theGameBoard = (function () {
     };
 
     const playerMove = (token, x, y) => {
+        if(board[x][y] !== 0) {
+            return false;
+        }
         board[x][y] = token;
         move++;
+        return true;
     };
 
     const checkWinner = () => {

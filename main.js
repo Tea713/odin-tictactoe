@@ -119,7 +119,7 @@ const gameController = (function () {
 
     const getActivePlayer = () => {
         return activePlayer;
-    }
+    };
 
     const changePlayerName = (isPlayer1, newName) => {
         if (isPlayer1) {
@@ -133,7 +133,14 @@ const gameController = (function () {
         player.score++;
     };
 
-    return { playTurn, resetGame, changePlayerName, getPlayer1, getPlayer2, getActivePlayer };
+    return {
+        playTurn,
+        resetGame,
+        changePlayerName,
+        getPlayer1,
+        getPlayer2,
+        getActivePlayer,
+    };
 })();
 
 const screenController = (function () {
@@ -177,9 +184,24 @@ const screenController = (function () {
     const updateBoard = () => {
         const flatBoard = theGameBoard.getBoard().flat();
         for (let i = 0; i < 9; i++) {
-            if (flatBoard[i] === 0) cells[i].innerHTML = "";
-            else if (flatBoard[i] === 1) cells[i].innerHTML = "X";
-            else cells[i].innerHTML = "O";
+            cells[i].innerHTML = "";
+            if (flatBoard[i] === 0) {
+                continue;
+            } else if (flatBoard[i] === 1) {
+                const img = document.createElement("img");
+                img.src =
+                    "assets/images/close_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
+                img.alt = "X";
+                img.classList.add("game-token", "x-token");
+                cells[i].appendChild(img);
+            } else {
+                const img = document.createElement("img");
+                img.src =
+                    "assets/images/circle_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg";
+                img.alt = "O";
+                img.classList.add("game-token", "o-token");
+                cells[i].appendChild(img);
+            }
         }
     };
 

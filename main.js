@@ -152,6 +152,10 @@ const screenController = (function () {
     const cells = document.querySelectorAll("#board button");
 
     resetButton.addEventListener("click", () => {
+        const icon = resetButton.querySelector("img");
+        icon.style.animation = "none";
+        void icon.offsetWidth; // Trigger reflow to restart animation
+        icon.style.animation = "spin 0.7s ease-in-out";
         gameController.resetGame();
         updateBoard();
     });

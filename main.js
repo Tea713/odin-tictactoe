@@ -117,6 +117,10 @@ const gameController = (function () {
         return player2;
     };
 
+    const getActivePlayer = () => {
+        return activePlayer;
+    }
+
     const changePlayerName = (isPlayer1, newName) => {
         if (isPlayer1) {
             player1.name = newName;
@@ -129,7 +133,7 @@ const gameController = (function () {
         player.score++;
     };
 
-    return { playTurn, resetGame, changePlayerName, getPlayer1, getPlayer2 };
+    return { playTurn, resetGame, changePlayerName, getPlayer1, getPlayer2, getActivePlayer };
 })();
 
 const screenController = (function () {

@@ -1,6 +1,7 @@
-function Player(name, token) {
+function Player(name, token, score) {
     this.name = name;
     this.token = token;
+    this.score = score;
 }
 
 const theGameBoard = (function () {
@@ -67,8 +68,8 @@ const theGameBoard = (function () {
 })();
 
 const gameController = (function () {
-    let player1 = new Player("Player 1", 1);
-    let player2 = new Player("Player 2", 2);
+    let player1 = new Player("Player 1", 1, 0);
+    let player2 = new Player("Player 2", 2, 0);
     let activePlayer = player1;
     let gameOver = false;
 
@@ -89,6 +90,8 @@ const gameController = (function () {
         if (theGameBoard.checkWinner()) {
             console.log(`${activePlayer.name} has won!`);
             gameOver = true;
+            incrementPoint(activePlayer);
+            screenController.updateScore(player1, player2);
             return true;
         }
         if (theGameBoard.checkDraw()) {
@@ -106,31 +109,82 @@ const gameController = (function () {
         gameOver = false;
     };
 
-    return { playTurn, resetGame };
+    const getPlayer1 = () => {
+        return player1;
+    };
+
+    const getPlayer2 = () => {
+        return player2;
+    };
+
+    const changePlayerName = (isPlayer1, newName) => {
+        if (isPlayer1) {
+            player1.name = newName;
+        } else {
+            player2.name = newName;
+        }
+    };
+
+    const incrementPoint = (player) => {
+        player.score++;
+    };
+
+    return { playTurn, resetGame, changePlayerName, getPlayer1, getPlayer2 };
 })();
 
 const screenController = (function () {
-    const resetButton = document
-        .getElementById("reset-btn")
-        .addEventListener("click", () => {
-            gameController.resetGame();
-            updateScreen();
-        });
+    const resetButton = document.getElementById("reset-btn");
+    const player1Input = document.getElementById("player1");
+    const player2Input = document.getElementById("player2");
+    const player1ScoreDisplay = document.getElementById("player1-score");
+    const player2ScoreDisplay = document.getElementById("player2-score");
     const cells = document.querySelectorAll("#board button");
+
+    resetButton.addEventListener("click", () => {
+        gameController.resetGame();
+        updateBoard();
+    });
+
+    player1Input.addEventListener("change", () => {
+        if (player1Input.value.trim() !== "") {
+            gameController.changePlayerName(true, player1Input.value.trim());
+        } else {
+            gameController.changePlayerName(true, "Player 1");
+        }
+    });
+
+    player2Input.addEventListener("change", () => {
+        if (player2Input.value.trim() !== "") {
+            gameController.changePlayerName(false, player2Input.value.trim());
+        } else {
+            gameController.changePlayerName(false, "Player 2");
+        }
+    });
+
     cells.forEach((cell) => {
         cell.addEventListener("click", () => {
             const x = parseInt(cell.dataset.row);
             const y = parseInt(cell.dataset.col);
             gameController.playTurn(x, y);
-            updateScreen();
+            updateBoard();
         });
     });
-    const updateScreen = () => {
-        flatBoard = theGameBoard.getBoard().flat();
+
+    const updateBoard = () => {
+        const flatBoard = theGameBoard.getBoard().flat();
         for (let i = 0; i < 9; i++) {
             if (flatBoard[i] === 0) cells[i].innerHTML = "";
             else if (flatBoard[i] === 1) cells[i].innerHTML = "X";
             else cells[i].innerHTML = "O";
         }
     };
+
+    const updateScore = () => {
+        player1ScoreDisplay.textContent = gameController.getPlayer1().score;
+        player2ScoreDisplay.textContent = gameController.getPlayer2().score;
+    };
+
+    updateScore();
+
+    return { updateScore };
 })();

@@ -70,6 +70,40 @@ h6 {
 }
 
 /* actual css style */
+:root {
+    --player1-color: #ff4500;
+    --player2-color: #1e90ff;
+}
+
+@font-face {
+  font-family: "Rubik";
+  src: url("assets/fonts/Rubik-Regular.ttf");
+  font-weight: 400;
+  font-size: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Rubik";
+  src: url("assets/fonts/Rubik-Medium.ttf");
+  font-weight: 500;
+  font-size: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Rubik";
+  src: url("assets/fonts/Rubik-Bold.ttf");
+  font-weight: 700;
+  font-size: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: "Rubik", sans-serif;
+  min-height: 100vh;
+}
+
 #board {
     display: grid;
     grid-template-columns: repeat(3, 200px);
@@ -81,14 +115,36 @@ h6 {
 }
 
 .game-token {
-  width: 60px;
-  height: 60px;
+    width: 60px;
+    height: 60px;
 }
 
 .x-token {
-  filter: invert(44%) sepia(85%) saturate(2645%) hue-rotate(347deg) brightness(100%) contrast(101%);
+    filter: invert(44%) sepia(85%) saturate(2645%) hue-rotate(347deg)
+        brightness(100%) contrast(101%);
 }
 
 .o-token {
-  filter: invert(45%) sepia(85%) saturate(1014%) hue-rotate(187deg) brightness(97%) contrast(98%);
+    filter: invert(45%) sepia(85%) saturate(1014%) hue-rotate(187deg)
+        brightness(97%) contrast(98%);
+}
+
+#player-information {
+  display: flex;
+}
+
+.player-name {
+  outline: none;
+}
+
+#player1 {
+    color: var(--player1-color);
+    border: none;
+    padding: 6px;
+}
+
+#player2 {
+    color: var(--player2-color);
+    border: none;
+    padding: 6px;
 }
